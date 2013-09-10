@@ -37,3 +37,10 @@ nosetests.xml
 
 # python cache
 .cache
+
+# log files
+*.log
+
+# config files that might contain passwords
+*.cnf
+

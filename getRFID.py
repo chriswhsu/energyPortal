@@ -1,18 +1,20 @@
 import time
 import datetime
 import ConfigParser
-import pytz
+import os
+import logging
 
 from smap.archiver.client import SmapClient
-
 import MySQLdb
 
-import logging
-logging.basicConfig(filename='getRFID.log',format='%(asctime)s %(message)s',level=logging.DEBUG)
+import pytz
 
+
+logging.basicConfig(filename='getRFID.log', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 Config = ConfigParser.ConfigParser()
-Config.read('EnergyPortal.cnf')
+#  look for config file in same directory as executable .py file.
+Config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'EnergyPortal.cnf'))
 
 # Connect to database
 HOST = Config.get("MySQL", 'Host')
@@ -23,7 +25,6 @@ DB = Config.get("MySQL", 'DB')
 
 #number of days to retrieve RFID history
 days = Config.getint("sMAP", 'Days');
-
 
 logging.info('Set up database connection')
 
