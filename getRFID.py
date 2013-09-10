@@ -16,7 +16,7 @@ Config = ConfigParser.ConfigParser()
 #  look for config file in same directory as executable .py file.
 Config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'EnergyPortal.cnf'))
 
-# Connect to database
+# Configure DB connection
 HOST = Config.get("MySQL", 'Host')
 PORT = Config.getint("MySQL", 'Port')
 USER = Config.get("MySQL", 'User')
@@ -28,6 +28,7 @@ days = Config.getint("sMAP", 'Days');
 
 logging.info('Set up database connection')
 
+# Connect to database
 dbconn = MySQLdb.connect(host=HOST, port=PORT, user=USER, passwd=PASS, db=DB, charset="utf8")
 cursor = dbconn.cursor()
 cursor.execute("SET NAMES utf8")
