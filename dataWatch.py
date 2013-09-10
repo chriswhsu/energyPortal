@@ -3,12 +3,11 @@ __author__ = 'chriswhsu'
 import ConfigParser
 import smtplib
 from email.mime.text import MIMEText
+import os
 
 import MySQLdb
 from html import HTML
 
-
-import os
 
 Config = ConfigParser.ConfigParser()
 
@@ -125,7 +124,7 @@ for row in data:
         if lastMeterID == meterID:
 
             # if less than 80% of the rows of the previous time period, raise an alert
-            if rowCount < lastCount * Config.getfloat('ACME','tolerance'):
+            if rowCount < lastCount * Config.getfloat('ACME', 'tolerance'):
                 sendEmail = True
                 r.td.b('drop in counts', style="color:red")
 
@@ -142,7 +141,7 @@ for row in data:
 
 if sendEmail:
     print('need to notify someone')
-    msg = MIMEText(str(theoutput),'html')
+    msg = MIMEText(str(theoutput), 'html')
     msg['Subject'] = 'Alert: Plug-Meter Data Anomaly'
     msg['From'] = Config.get("EMAIL", 'mailFrom')
     msg['To'] = Config.get("EMAIL", 'mailTo')
