@@ -10,11 +10,13 @@ import MySQLdb
 import pytz
 
 
-logging.basicConfig(filename='getRFID.log', format='%(asctime)s %(message)s', level=logging.DEBUG)
+fileDir = os.path.abspath(os.path.dirname(__file__))
+
+logging.basicConfig(filename= os.path.join(fileDir,'getRFID.log'), format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 Config = ConfigParser.ConfigParser()
 #  look for config file in same directory as executable .py file.
-Config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'EnergyPortal.cnf'))
+Config.read(os.path.join(fileDir, 'EnergyPortal.cnf'))
 
 # Configure DB connection
 HOST = Config.get("MySQL", 'Host')
@@ -81,6 +83,7 @@ for x in range(len(theUuid)):
         pac_tp = utc_tp.astimezone(pacific)
         vl = data[x][y][1]
         # note that MySQL doesn't hold timezone information in date time fields, so that is being lost on insert, hence the warning.
+        # TODO figure out how truncate timezone information since MySQL wont eat it.
         cursor.execute(
             """INSERT INTO building.sMAPTimeSeries (UUID, Time, Value) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE value = value""",
             (myuuid, pac_tp, vl))
