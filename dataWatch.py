@@ -128,10 +128,10 @@ for row in data:
                 sendEmail = True
                 r.td.b('drop in counts', style="color:red")
 
-        # did the net energy drop by more than a certain amount
-        if lastMax - minEnergy > Config.getint('ACME', 'energyTolerance'):
-            sendEmail = True
-            r.td.b('drop in net energy', style="color:red")
+            # did the net energy drop by more than a certain amount
+            if lastMax - minEnergy > Config.getint('ACME', 'energyTolerance'):
+                sendEmail = True
+                r.td.b('drop in net energy', style="color:red")
         r = table.tr
         r = table.tr
         pairComplete = True  # pair complete or new meter.
